@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, HttpCode } from '@nestjs/common';
 import { FilmsService } from './films.service';
 import { CreateFilmDto } from './dto/films.dto';
 
@@ -17,6 +17,7 @@ export class FilmsController {
   }
 
   @Post()
+  @HttpCode(201)
   create(@Body() createFilmDto: CreateFilmDto) {
     return this.filmsService.create(createFilmDto);
   }

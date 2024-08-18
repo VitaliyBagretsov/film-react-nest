@@ -1,4 +1,3 @@
-//TODO реализовать DTO для /orders
 import { IsString, IsNumber, IsEmail, IsPhoneNumber } from 'class-validator';
 
 export class TicketDto {

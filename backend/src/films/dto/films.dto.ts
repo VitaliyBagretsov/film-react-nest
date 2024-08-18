@@ -1,4 +1,3 @@
-//TODO описать DTO для запросов к /films
 import {
   IsNumber,
   IsFQDN,

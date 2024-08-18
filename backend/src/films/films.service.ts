@@ -10,7 +10,6 @@ import { v4 as uuid } from 'uuid';
 @Injectable()
 export class FilmsService {
   constructor(
-    // private readonly filmsRepository: FilmsRepository,
     @Inject('FILM_MODEL')
     private filmModel: Model<FilmDocument>,
   ) {}
@@ -41,13 +40,14 @@ export class FilmsService {
   }
 
   findByTitle(title: string) {
-    return this.filmModel.find({ title });
+    return this.filmModel.findOne({ title });
   }
 
   async updateSeat(ticket: ITicket): Promise<ITicketChecked> {
     const seat = `${ticket.row}:${ticket.seat}`;
 
     const film = await this.findById(ticket.film);
+    
     const scheduleIndex: number = film.items.findIndex(
       (item) => item.id === ticket.session,
     );

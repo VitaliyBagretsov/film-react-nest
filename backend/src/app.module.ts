@@ -17,7 +17,6 @@ import { filmsProviders } from './films/films.providers';
       isGlobal: true,
       cache: true,
     }),
-    // @todo: Добавьте раздачу статических файлов из public
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '..', 'public'),
       renderPath: '/content/afisha/',
