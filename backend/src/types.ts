@@ -11,13 +11,11 @@ export interface IMovie {
 }
 
 export interface ISchedule {
-  id: string;
   daytime: string;
-  hall: string;
+  hall: number;
   rows: number;
   seats: number;
   price: number;
-  taken: string[];
 }
 
 export interface ISession {

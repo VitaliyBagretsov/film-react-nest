@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Body, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Body,
+  HttpCode,
+  Delete,
+} from '@nestjs/common';
 import { FilmsService } from './films.service';
 import { CreateFilmDto } from './dto/films.dto';
 
@@ -20,5 +28,10 @@ export class FilmsController {
   @HttpCode(201)
   create(@Body() createFilmDto: CreateFilmDto) {
     return this.filmsService.create(createFilmDto);
+  }
+
+  @Delete(':id')
+  removeFilm(@Param('id') id: string) {
+    return this.filmsService.remove(id);
   }
 }
