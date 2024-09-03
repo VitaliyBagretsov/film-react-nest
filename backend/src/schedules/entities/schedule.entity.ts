@@ -6,8 +6,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { IsNumber, IsString } from 'class-validator';
-import { Film } from './film.entity';
 import { ScheduleTaken } from './schedule-taken.entity';
+import { Film } from 'src/films/entities/film.entity';
 
 @Entity({ schema: 'afisha' })
 export class Schedule {

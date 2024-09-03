@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { IsNumber, IsString } from 'class-validator';
-import { Schedule } from './schedule.entity';
+import { Schedule } from 'src/schedules/entities/schedule.entity';
 
 @Entity({ schema: 'afisha' })
 export class Film {

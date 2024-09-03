@@ -4,12 +4,11 @@ import { OrderService } from './order.service';
 import { OrderController } from './order.controller';
 import { FilmsService } from 'src/films/films.service';
 import { filmsProviders } from 'src/films/films.providers';
-import { Film } from 'src/films/entities/film.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { SchedulesService } from 'src/schedules/schedules.service';
 
 @Module({
-  imports: [DatabaseModule, TypeOrmModule.forFeature([Film])],
-  providers: [OrderService, FilmsService, ...filmsProviders],
+  imports: [DatabaseModule],
+  providers: [OrderService, FilmsService, ...filmsProviders, SchedulesService],
   controllers: [OrderController],
 })
 export class OrderModule {}

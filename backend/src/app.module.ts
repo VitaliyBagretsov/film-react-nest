@@ -8,6 +8,7 @@ import { DatabaseModule } from './database/database.module';
 import { filmsProviders } from './films/films.providers';
 import { FilmsModule } from './films/films.module';
 import { OrderModule } from './order/order.module';
+import { SchedulesModule } from './schedules/schedules.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { OrderModule } from './order/order.module';
     DatabaseModule,
     FilmsModule,
     OrderModule,
+    SchedulesModule,
   ],
   providers: [configProvider, ...filmsProviders],
 })

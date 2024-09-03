@@ -9,11 +9,8 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { DataSource, EntityManager } from 'typeorm';
 import { Film } from './entities/film.entity';
 import { FilmTags } from './entities/film-tags.entity';
-import { Schedule } from './entities/schedule.entity';
-import { ScheduleMissingException } from 'src/exceptions/schedule-missing.exception ';
-import { ScheduleTaken } from './entities/schedule-taken.entity';
-import { convertSchedule } from './helper/films.helper';
 import { DeleteException } from 'src/exceptions/delete.exception ';
+import { SchedulesService } from 'src/schedules/schedules.service';
 
 @Injectable()
 export class FilmsService {
@@ -23,6 +20,7 @@ export class FilmsService {
     @InjectEntityManager()
     private filmManager: EntityManager,
     private readonly dataSource: DataSource,
+    private scheduleService: SchedulesService,
   ) {}
 
   async create(data: CreateFilmDto) {
@@ -56,8 +54,7 @@ export class FilmsService {
           tags.map((tag) => ({ filmId: film.id, tag })),
         );
 
-        const promiseFilmSchedule = await this.filmManager.save(
-          Schedule,
+        const promiseFilmSchedule = this.scheduleService.create(
           schedule.map((item) => ({ ...item, filmId: film.id })),
         );
 
@@ -86,22 +83,7 @@ export class FilmsService {
       .then((film) => {
         if (!film) throw new FilmMissingException();
 
-        return this.filmManager
-          .find(Schedule, {
-            where: { filmId: parseInt(id) },
-            order: { daytime: 'ASC' },
-            relations: {
-              taken: true,
-            },
-          })
-          .then((schedule) => {
-            if (!schedule || !schedule.length)
-              throw new ScheduleMissingException();
-            return {
-              items: convertSchedule(schedule),
-              total: schedule.length,
-            };
-          });
+        return this.scheduleService.getFilmSchedule(film.id);
       });
   }
 
@@ -120,10 +102,11 @@ export class FilmsService {
 
     try {
       if (!film.items[scheduleIndex].taken.includes(seat)) {
-        await this.filmManager.save(ScheduleTaken, {
+        await this.scheduleService.updateSeat({
           scheduleId: parseInt(ticket.session),
           seat,
         });
+
         return { ...ticket, isFree: true };
       } else {
         return { ...ticket, isFree: false };
@@ -147,7 +130,7 @@ export class FilmsService {
     try {
       const films = this.filmManager.delete(Film, { id });
       const film_tags = this.filmManager.delete(FilmTags, { filmId: id });
-      const schedule = this.filmManager.delete(Schedule, { filmId: id });
+      const schedule = this.scheduleService.removeFilmSchedule(id);
       res = await Promise.all([films, film_tags, schedule]);
 
       await queryRunner.commitTransaction();
