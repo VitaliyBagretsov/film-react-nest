@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
+
+import { FilmsService } from '../films/films.service';
+import { ITicketChecked } from '../types';
+import { TicketFailException } from '../exceptions/ticket-fail.exception';
+
 import { OrderDto } from './dto/order.dto';
-import { FilmsService } from 'src/films/films.service';
-import { ITicketChecked } from 'src/types';
-import { TicketFailException } from 'src/exceptions/ticket-fail.exception';
 
 @Injectable()
 export class OrderService {

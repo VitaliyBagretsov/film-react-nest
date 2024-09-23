@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { databaseProviders } from './database.provider';
-import { configProvider } from 'src/app.config.provider';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+
+import { configProvider } from '../app.config.provider';
+
+import { databaseProviders } from './database.provider';
 
 @Module({
   imports: [

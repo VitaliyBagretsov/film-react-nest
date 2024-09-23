@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { IsNumber, IsString } from 'class-validator';
 import { ScheduleTaken } from './schedule-taken.entity';
-import { Film } from 'src/films/entities/film.entity';
+import { Film } from '../../films/entities/film.entity';
 
 @Entity({ schema: 'afisha' })
 export class Schedule {

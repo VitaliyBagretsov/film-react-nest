@@ -3,7 +3,6 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
 import * as path from 'node:path';
 
-import { configProvider } from './app.config.provider';
 import { DatabaseModule } from './database/database.module';
 import { filmsProviders } from './films/films.providers';
 import { FilmsModule } from './films/films.module';
@@ -25,6 +24,6 @@ import { SchedulesModule } from './schedules/schedules.module';
     OrderModule,
     SchedulesModule,
   ],
-  providers: [configProvider, ...filmsProviders],
+  providers: [...filmsProviders],
 })
 export class AppModule {}

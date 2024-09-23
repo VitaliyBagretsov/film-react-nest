@@ -1,16 +1,19 @@
 import { Model } from 'mongoose';
 import { Inject, Injectable } from '@nestjs/common';
+import { InjectEntityManager } from '@nestjs/typeorm';
+
+import { SchedulesService } from '../schedules/schedules.service';
+
+import { FilmAlreadyExistsException } from '../exceptions/film-exists.exception';
+import { FilmMissingException } from '../exceptions/film-missing.exception ';
+import { DeleteException } from '../exceptions/delete.exception ';
+
 import { CreateFilmDto } from './dto/films.dto';
 import { FilmDocument } from './shemas/films.shema';
-import { FilmAlreadyExistsException } from 'src/exceptions/film-exists.exception';
-import { FilmMissingException } from 'src/exceptions/film-missing.exception ';
-import { ITicket, ITicketChecked } from 'src/types';
-import { InjectEntityManager } from '@nestjs/typeorm';
+import { ITicket, ITicketChecked } from '../types';
 import { DataSource, EntityManager } from 'typeorm';
 import { Film } from './entities/film.entity';
 import { FilmTags } from './entities/film-tags.entity';
-import { DeleteException } from 'src/exceptions/delete.exception ';
-import { SchedulesService } from 'src/schedules/schedules.service';
 
 @Injectable()
 export class FilmsService {
