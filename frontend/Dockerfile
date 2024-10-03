@@ -3,12 +3,14 @@ FROM node:20-alpine
 
 WORKDIR /film-react-nest
 
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 RUN npm i
 
 COPY . .
 
-# ARG VITE_API_URL="//localhost/api"
+RUN npm run build
 
-RUN VITE_API_URL=${VITE_API_URL} npm run build
+EXPOSE 3001
+
+CMD ["npm", "run", "dev"]

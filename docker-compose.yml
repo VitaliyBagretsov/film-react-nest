@@ -1,42 +1,24 @@
-version: "3.9"
 services:
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        VITE_API_URL: http://localhost:3000/api/afisha
-        VITE_CDN_URL: http://localhost:3000/content/afisha
+    environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - './frontend/.env'  
+      # args:
+      #   VITE_API_URL: "//bagretsov.practicum.nomorepartiesco.ru/api"
+      #   VITE_CDN_URL: "//bagretsov.practicum.nomorepartiesco.ru/api"
     container_name: frontend
+    ports:
+      - '3001:3001'
+      - '3002:5173'
     networks:
       - webnet
     volumes:
       - frontend_dist:/film-react-nest/dist
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: backend
-    networks:
-      - webnet
-    environment:
-      - DB_HOST=localhost
-      - DB_PORT=5432
-      - DB_NAME=nest_project
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:14.1-alpine
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - '5432:5432'
-    volumes: 
-      - postgres_data:/var/lib/postgresql/data    
 
   nginx:
     image: nginx:latest
@@ -48,7 +30,40 @@ services:
     restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - frontend_dist:/var/www/frontend:ro    
+      - frontend_dist:/var/www/frontend:ro 
+
+  backend:
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile
+    image: vbagretsov/film-react-nest-backend
+    container_name: backend
+    ports:
+      - '3000:3000'
+    networks:
+      - webnet
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=nest_project
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5431:5432'
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - webnet      
 
 volumes:
   postgres_data:

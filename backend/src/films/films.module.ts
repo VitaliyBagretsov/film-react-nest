@@ -9,7 +9,8 @@ import { filmsProviders } from './films.providers';
 
 @Module({
   imports: [DatabaseModule, SchedulesModule],
-  providers: [FilmsService, ...filmsProviders],
+  providers: [FilmsService],
+  // providers: [FilmsService, ...filmsProviders],
   controllers: [FilmsController],
 })
 export class FilmsModule {}
