@@ -1,6 +1,6 @@
 # FILM!
 
-[Ссылка на размернутое приложение](http://bagretsov.practicum.nomorepartiesco.ru/)
+[Ссылка на развернутое приложение](http://bagretsov.practicum.nomorepartiesco.ru/)
 
 ## Установка
 
