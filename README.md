@@ -1,5 +1,7 @@
 # FILM!
 
+[Ссылка на развернутое приложение](http://bagretsov.practicum.nomorepartiesco.ru/)
+
 ## Установка
 
 ### MongoDB
