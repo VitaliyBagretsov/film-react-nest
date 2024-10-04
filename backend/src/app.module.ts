@@ -4,7 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import * as path from 'node:path';
 
 import { DatabaseModule } from './database/database.module';
-import { filmsProviders } from './films/films.providers';
 import { FilmsModule } from './films/films.module';
 import { OrderModule } from './order/order.module';
 import { SchedulesModule } from './schedules/schedules.module';
@@ -24,6 +23,5 @@ import { SchedulesModule } from './schedules/schedules.module';
     OrderModule,
     SchedulesModule,
   ],
-  providers: [...filmsProviders],
 })
 export class AppModule {}

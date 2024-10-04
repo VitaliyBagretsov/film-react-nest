@@ -3,22 +3,29 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    environment:
-      - WATCHPACK_POLLING=true
-      - CHOKIDAR_USEPOLLING=true
     env_file:
-      - './frontend/.env'  
-      # args:
-      #   VITE_API_URL: "//bagretsov.practicum.nomorepartiesco.ru/api"
-      #   VITE_CDN_URL: "//bagretsov.practicum.nomorepartiesco.ru/api"
+      - './frontend/.env.local'  
     container_name: frontend
-    ports:
-      - '3001:3001'
-      - '3002:5173'
     networks:
       - webnet
+    restart: unless-stopped
     volumes:
       - frontend_dist:/film-react-nest/dist
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - '3000:3000'
+    networks:
+      - webnet
+    restart: unless-stopped  
+    env_file:
+      - './backend/.env'       
+    depends_on:
+      - postgres
 
   nginx:
     image: nginx:latest
@@ -32,25 +39,6 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - frontend_dist:/var/www/frontend:ro 
 
-  backend:
-    # build:
-    #   context: ./backend
-    #   dockerfile: Dockerfile
-    image: vbagretsov/film-react-nest-backend
-    container_name: backend
-    ports:
-      - '3000:3000'
-    networks:
-      - webnet
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=nest_project
-      - DB_USERNAME=postgres
-      - DB_PASSWORD=postgres
-    depends_on:
-      - postgres
-
   postgres:
     image: postgres:14.1-alpine
     restart: always
@@ -63,7 +51,7 @@ services:
     volumes: 
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - webnet      
+      - webnet
 
 volumes:
   postgres_data:
