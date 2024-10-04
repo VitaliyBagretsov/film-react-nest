@@ -1,5 +1,4 @@
-import { Model } from 'mongoose';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 
 import { SchedulesService } from '../schedules/schedules.service';
@@ -9,7 +8,6 @@ import { FilmMissingException } from '../exceptions/film-missing.exception ';
 import { DeleteException } from '../exceptions/delete.exception ';
 
 import { CreateFilmDto } from './dto/films.dto';
-// import { FilmDocument } from './shemas/films.shema';
 import { ITicket, ITicketChecked } from '../types';
 import { DataSource, EntityManager } from 'typeorm';
 import { Film } from './entities/film.entity';
@@ -18,8 +16,6 @@ import { FilmTags } from './entities/film-tags.entity';
 @Injectable()
 export class FilmsService {
   constructor(
-    // @Inject('FILM_MODEL')
-    // private filmModel: Model<FilmDocument>,
     @InjectEntityManager()
     private filmManager: EntityManager,
     private readonly dataSource: DataSource,

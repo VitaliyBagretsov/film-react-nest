@@ -1,5 +1,5 @@
 # film-react-nest/frontend/Dockerfile
-FROM node:20-alpine
+FROM node:20-alpine as builder
 
 WORKDIR /film-react-nest
 
@@ -9,8 +9,16 @@ RUN npm i
 
 COPY . .
 
-# RUN npm run build
+# CMD ["npm", "run", "build"]
+RUN npm run build
 
-# EXPOSE 3001
+FROM node:20-alpine as production
+WORKDIR /film-react-nest
 
-CMD ["npm", "run", "build"]
+COPY --from=builder /film-react-nest/package*.json ./
+
+RUN npm i --prod
+
+COPY --from=builder /film-react-nest/dist ./dist/
+
+CMD ["echo", "start frontend"]
